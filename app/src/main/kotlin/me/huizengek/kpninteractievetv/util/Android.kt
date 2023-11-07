@@ -1,0 +1,45 @@
+package me.huizengek.kpninteractievetv.util
+
+import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+
+fun Modifier.focusOnLaunch(key1: Any = Unit) = composed {
+    val focusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(key1) {
+        focusRequester.requestFocus()
+    }
+
+    focusRequester(focusRequester)
+}
+
+fun Context.findActivity(): Activity {
+    var context = this
+    while (context is ContextWrapper) {
+        if (context is Activity) return context
+        context = context.baseContext
+    }
+    throw IllegalStateException("Should be called in the context of an Activity")
+}
+
+@Composable
+fun focusRequesters(): LazyMap<FocusRequester> {
+    val requesters = remember { mutableStateMapOf<Int, FocusRequester>() }
+
+    return LazyMap {
+        requesters.getOrPut(it) { FocusRequester() }
+    }
+}
+
+fun interface LazyMap<T> {
+    operator fun get(index: Int): T
+}

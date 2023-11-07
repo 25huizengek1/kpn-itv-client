@@ -1,0 +1,40 @@
+[versions]
+agp = "8.3.0-alpha11"
+kotlin = "1.9.10"
+ksp = "1.9.10-1.0.13"
+
+core-ktx = "1.12.0"
+compose-bom = "2023.10.01"
+material = "1.1.2"
+tv = "1.0.0-alpha10"
+lifecycle = "2.6.2"
+activity-compose = "1.8.0"
+destinations = "1.9.54"
+room = "2.6.0"
+ktor = "2.3.5"
+coil = "2.4.0"
+exoplayer = "1.1.1"
+
+[libraries]
+core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
+ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+material = { group = "androidx.compose.material3", name = "material3", version.ref = "material" }
+tv-material = { group = "androidx.tv", name = "tv-material", version.ref = "tv" }
+tv-foundation = { group = "androidx.tv", name = "tv-foundation", version.ref = "tv" }
+lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
+destinations = { group = "io.github.raamcosta.compose-destinations", name = "core", version.ref = "destinations" }
+destinations-ksp = { group = "io.github.raamcosta.compose-destinations", name = "ksp", version.ref = "destinations" }
+room = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+room-ksp = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
+ktor-client-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktor" }
+ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
+coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "exoplayer" }
+exoplayer-dash = { group = "androidx.media3", name = "media3-exoplayer-dash", version.ref = "exoplayer" }
+exoplayer-session = { group = "androidx.media3", name = "media3-session", version.ref = "exoplayer" }
+exoplayer-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "exoplayer" }

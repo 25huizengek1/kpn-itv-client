@@ -1,0 +1,5 @@
+<resources>
+    <style name="Theme.KPNInteractieveTV" parent="android:Theme.Material.NoActionBar">
+        <item name="android:colorPrimary">#000000</item>
+    </style>
+</resources>

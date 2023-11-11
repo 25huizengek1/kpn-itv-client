@@ -37,7 +37,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 
     packaging {
@@ -62,7 +62,6 @@ ksp {
 dependencies {
     implementation(libs.core.ktx)
     implementation(platform(libs.compose.bom))
-    implementation(libs.ui.tooling.preview)
     implementation(libs.tv.foundation)
     implementation(libs.tv.material)
     implementation(libs.lifecycle.runtime.ktx)

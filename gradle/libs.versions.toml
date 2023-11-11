@@ -12,7 +12,7 @@ activity-compose = "1.8.0"
 destinations = "1.9.54"
 room = "2.6.0"
 ktor = "2.3.5"
-coil = "2.4.0"
+coil = "2.5.0"
 exoplayer = "1.1.1"
 
 [libraries]

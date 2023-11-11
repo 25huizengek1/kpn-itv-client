@@ -10,7 +10,7 @@ mobile app, which DOES work on the go.
 The codebase of this app is very new and I am aware of some bugs that may arise when used on a
 Google TV, paired with the Google Home companion app. I am also aware that there are some UI
 inconsistencies. I'm planning to fix this, but other projects may take priority over this one, so if
-you have an issue that you ant to have fixed, please let me know
+you have an issue that you want to have fixed, please let me know
 by [opening an issue](https://github.com/25huizengek1/kpn-itv-client/issues/new/choose).
 
 ## License

@@ -11,7 +11,7 @@ lifecycle = "2.6.2"
 activity-compose = "1.8.0"
 destinations = "1.9.54"
 room = "2.6.0"
-ktor = "2.3.5"
+ktor = "2.3.6"
 coil = "2.5.0"
 exoplayer = "1.1.1"
 

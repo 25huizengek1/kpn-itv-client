@@ -6,7 +6,7 @@
         android:required="false" />
     <uses-feature
         android:name="android.software.leanback"
-        android:required="false" />
+        android:required="true" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -27,8 +27,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:banner="@drawable/ic_banner_foreground"
-            android:logo="@drawable/ic_banner_foreground"
-            android:screenOrientation="landscape">
+            android:logo="@drawable/ic_banner_foreground">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

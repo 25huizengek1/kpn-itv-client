@@ -3,6 +3,7 @@ package me.huizengek.kpninteractievetv
 import android.app.Application
 import android.content.ComponentName
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -51,6 +52,8 @@ class MainActivity : ComponentActivity() {
     private lateinit var mediaController: ListenableFuture<MediaController>
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (!packageManager.hasSystemFeature(PackageManager.FEATURE_LEANBACK))
+            error("This application should not have been installed on this device")
         super.onCreate(savedInstanceState)
 
         val sessionToken = SessionToken(

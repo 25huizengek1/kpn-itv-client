@@ -1,6 +1,18 @@
 plugins {
-    kotlin("android") version libs.versions.kotlin apply false
-    kotlin("plugin.serialization") version libs.versions.kotlin apply false
-    id("com.android.application") version libs.versions.agp apply false
-    id("com.google.devtools.ksp") version libs.versions.ksp apply false
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.ksp) apply false
+}
+
+allprojects {
+    group = "me.huizengek.kpninteractievetv"
+    version = "1.0.0"
+
+    repositories {
+        google()
+        mavenCentral()
+    }
 }

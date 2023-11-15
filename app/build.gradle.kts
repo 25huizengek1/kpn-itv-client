@@ -1,20 +1,20 @@
 plugins {
-    kotlin("android")
-    kotlin("plugin.serialization")
-    id("com.android.application")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "me.huizengek.kpninteractievetv"
+    namespace = project.group.toString()
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "me.huizengek.kpninteractievetv"
+        applicationId = project.group.toString()
         minSdk = 26
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
+        versionName = project.version.toString()
 
         vectorDrawables {
             useSupportLibrary = true
@@ -52,7 +52,7 @@ android {
 }
 
 kotlin {
-    jvmToolchain(8)
+    jvmToolchain(libs.versions.jvm.get().toInt())
 }
 
 ksp {

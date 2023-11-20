@@ -15,7 +15,7 @@ destinations = "1.9.54"
 room = "2.6.0"
 ktor = "2.3.6"
 coil = "2.5.0"
-exoplayer = "1.1.1"
+exoplayer = "1.2.0"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

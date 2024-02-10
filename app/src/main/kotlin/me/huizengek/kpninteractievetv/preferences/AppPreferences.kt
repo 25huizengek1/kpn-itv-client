@@ -4,4 +4,5 @@ import me.huizengek.kpninteractievetv.GlobalPreferencesHolder
 
 object AppPreferences : GlobalPreferencesHolder() {
     var darkTheme by boolean(true)
+    var keepScreenOn by boolean(true)
 }

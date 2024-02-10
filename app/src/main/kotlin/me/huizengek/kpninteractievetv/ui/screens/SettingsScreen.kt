@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -30,11 +30,12 @@ import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import me.huizengek.kpnclient.KpnClient
 import me.huizengek.kpninteractievetv.Database
 import me.huizengek.kpninteractievetv.R
-import me.huizengek.kpninteractievetv.innertube.Innertube
 import me.huizengek.kpninteractievetv.preferences.AppPreferences
 
+// TODO refactor
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun SettingsScreen() {
@@ -79,7 +80,7 @@ fun SettingsScreen() {
             }
             item {
                 OutlinedButton(
-                    onClick = { Innertube.logout() },
+                    onClick = { KpnClient.logout() },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 48.dp, vertical = 4.dp),
@@ -89,7 +90,7 @@ fun SettingsScreen() {
                 }
             }
             item {
-                Divider()
+                HorizontalDivider()
                 Spacer(modifier = Modifier.height(4.dp))
                 Surface(
                     modifier = Modifier
@@ -108,6 +109,27 @@ fun SettingsScreen() {
                         Switch(
                             checked = AppPreferences.darkTheme,
                             onCheckedChange = { AppPreferences.darkTheme = it },
+                            enabled = false
+                        )
+                    }
+                }
+                Surface(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp)
+                        .padding(horizontal = 48.dp),
+                    onClick = { AppPreferences.keepScreenOn = !AppPreferences.keepScreenOn },
+                    scale = ClickableSurfaceScale.None,
+                    colors = ClickableSurfaceDefaults.colors(
+                        containerColor = MaterialTheme.colorScheme.background
+                    )
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(text = "Houd scherm aan")
+                        Spacer(modifier = Modifier.weight(1f))
+                        Switch(
+                            checked = AppPreferences.keepScreenOn,
+                            onCheckedChange = { AppPreferences.keepScreenOn = it },
                             enabled = false
                         )
                     }

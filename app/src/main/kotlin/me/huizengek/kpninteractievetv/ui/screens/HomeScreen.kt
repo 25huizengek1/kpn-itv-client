@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -28,12 +29,14 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Tab
 import androidx.tv.material3.TabRow
 import androidx.tv.material3.Text
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.navigate
+import me.huizengek.kpnclient.KpnClient
 import me.huizengek.kpninteractievetv.LocalNavigator
-import me.huizengek.kpninteractievetv.destinations.LoginScreenDestination
-import me.huizengek.kpninteractievetv.innertube.Innertube
 import me.huizengek.kpninteractievetv.ui.components.TabHost
 import me.huizengek.kpninteractievetv.ui.components.tabs
+import me.huizengek.kpninteractievetv.ui.screens.destinations.LoginScreenDestination
 
 val tabs = tabs {
     tab(name = "Kijk") {
@@ -46,13 +49,17 @@ val tabs = tabs {
 }
 
 @OptIn(ExperimentalTvMaterial3Api::class)
+@RootNavGraph(start = true)
+@Destination
 @Composable
 fun HomeScreen() {
     val navigator = LocalNavigator.current
     var currentTab by rememberSaveable { mutableIntStateOf(0) }
 
-    LaunchedEffect(Innertube.isLoggedIn) {
-        if (!Innertube.isLoggedIn) navigator.navigate(LoginScreenDestination)
+    val isLoggedIn by KpnClient.isLoggedIn.collectAsState()
+
+    LaunchedEffect(isLoggedIn) {
+        if (!isLoggedIn) navigator.navigate(LoginScreenDestination)
     }
 
     Column(

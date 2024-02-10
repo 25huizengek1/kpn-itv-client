@@ -15,7 +15,7 @@ import androidx.media3.exoplayer.util.EventLogger
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
 import me.huizengek.kpninteractievetv.BuildConfig
-import me.huizengek.kpninteractievetv.DependencyGraph
+import me.huizengek.kpninteractievetv.Dependencies
 import me.huizengek.kpninteractievetv.R
 
 const val NOTIFICATION_ID = 1001
@@ -50,22 +50,27 @@ class PlaybackService : MediaSessionService(), Player.Listener {
     override fun onCreate() {
         super.onCreate()
 
-        val player = ExoPlayer.Builder(this).apply {
-            setMediaSourceFactory(DefaultMediaSourceFactory(applicationContext).apply {
-                setLiveTargetOffsetMs(5000)
-            })
-            setHandleAudioBecomingNoisy(true)
-        }.build().apply {
-            if (BuildConfig.DEBUG) addAnalyticsListener(EventLogger())
-            addListener(this@PlaybackService)
-        }.also { DependencyGraph.player = it }
+        val player = ExoPlayer.Builder(this)
+            .apply {
+                setMediaSourceFactory(DefaultMediaSourceFactory(applicationContext).apply {
+                    setLiveTargetOffsetMs(5000)
+                })
+                setHandleAudioBecomingNoisy(true)
+            }
+            .build()
+            .apply {
+                if (BuildConfig.DEBUG) addAnalyticsListener(EventLogger())
+                addListener(this@PlaybackService)
+            }
 
+        Dependencies.player = player
         session = MediaSession.Builder(this, player).build()
     }
 
     override fun onPlayerError(error: PlaybackException) {
         if (error.errorCode != PlaybackException.ERROR_CODE_BEHIND_LIVE_WINDOW)
             return error.printStackTrace()
+
         session?.player?.seekToDefaultPosition()
         session?.player?.prepare()
     }

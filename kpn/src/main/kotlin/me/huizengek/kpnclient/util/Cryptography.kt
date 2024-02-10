@@ -1,4 +1,4 @@
-package me.huizengek.kpninteractievetv.util
+package me.huizengek.kpnclient.util
 
 import java.security.MessageDigest
 

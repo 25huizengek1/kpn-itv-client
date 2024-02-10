@@ -2,6 +2,7 @@ package me.huizengek.kpninteractievetv.ui.components
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
@@ -22,7 +23,11 @@ class TabBuilder {
         name: String,
         content: @Composable () -> Unit
     ) {
-        tabs += Tab(idx = tabs.size, name = name, content = content)
+        tabs += Tab(
+            idx = tabs.size,
+            name = name,
+            content = content
+        )
     }
 
     fun build() = tabs.toList().sortedBy { it.idx }
@@ -32,9 +37,9 @@ fun tabs(block: TabBuilder.() -> Unit) = TabBuilder().apply(block).build()
 
 @Composable
 fun TabHost(
-    modifier: Modifier = Modifier,
     index: Int,
-    tabs: List<Tab>
+    tabs: List<Tab>,
+    modifier: Modifier = Modifier
 ) {
     AnimatedContent(
         targetState = index,
@@ -42,8 +47,18 @@ fun TabHost(
             val direction =
                 if (targetState > initialState) AnimatedContentTransitionScope.SlideDirection.Left
                 else AnimatedContentTransitionScope.SlideDirection.Right
-            slideIntoContainer(towards = direction, animationSpec = tween(500)) togetherWith
-                    slideOutOfContainer(towards = direction, animationSpec = tween(500))
+
+            ContentTransform(
+                targetContentEnter = slideIntoContainer(
+                    towards = direction,
+                    animationSpec = tween(500)
+                ),
+                initialContentExit = slideOutOfContainer(
+                    towards = direction,
+                    animationSpec = tween(500)
+                ),
+                sizeTransform = null
+            )
         },
         label = "",
         modifier = modifier

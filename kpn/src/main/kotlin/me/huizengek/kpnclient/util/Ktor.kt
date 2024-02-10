@@ -1,4 +1,4 @@
-package me.huizengek.kpninteractievetv.util
+package me.huizengek.kpnclient.util
 
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.parameter
@@ -13,4 +13,4 @@ fun HttpMessageBuilder.cookie(cookie: Cookie) {
 }
 
 context(HttpRequestBuilder)
-operator fun String.plusAssign(other: String) = parameter(this, other)
+operator fun String.plusAssign(other: Any?) = parameter(this, other)

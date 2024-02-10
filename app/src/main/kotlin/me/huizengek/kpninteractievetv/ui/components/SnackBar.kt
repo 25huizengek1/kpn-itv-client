@@ -1,6 +1,6 @@
 package me.huizengek.kpninteractievetv.ui.components
 
-import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -17,20 +17,29 @@ import androidx.compose.ui.unit.dp
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import me.huizengek.kpninteractievetv.util.lateinitCompositionLocalOf
 
 class SnackBarHost {
     private val mutex = Mutex()
+    private val coroutineScope = CoroutineScope(Dispatchers.Default)
     var state: String? by mutableStateOf(null)
         private set
 
-    suspend fun show(text: String, delay: Long = 3000) = mutex.withLock {
-        state = text
-        delay(delay)
-        state = null
+    fun show(
+        text: String,
+        delay: Long = 3000
+    ) = coroutineScope.launch {
+        mutex.withLock {
+            state = text
+            delay(delay)
+            state = null
+        }
     }
 }
 
@@ -43,11 +52,12 @@ fun SnackBarHost(
     val snackBarHost = remember { SnackBarHost() }
 
     Box(modifier = modifier) {
-        CompositionLocalProvider(LocalSnackBarHost provides snackBarHost) {
-            content()
-        }
+        CompositionLocalProvider(
+            value = LocalSnackBarHost provides snackBarHost,
+            content = content
+        )
 
-        AnimatedContent(
+        Crossfade(
             targetState = snackBarHost.state,
             label = ""
         ) {
@@ -60,7 +70,10 @@ fun SnackBarHost(
                         shape = RoundedCornerShape(12.dp)
                     )
             ) {
-                Text(text = it, modifier = Modifier.padding(all = 16.dp))
+                Text(
+                    text = it,
+                    modifier = Modifier.padding(all = 16.dp)
+                )
             }
         }
     }

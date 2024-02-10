@@ -16,9 +16,7 @@ android {
         versionCode = 1
         versionName = project.version.toString()
 
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
@@ -34,6 +32,10 @@ android {
     buildFeatures {
         buildConfig = true
         compose = true
+    }
+
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
     }
 
     composeOptions {
@@ -60,13 +62,17 @@ ksp {
 }
 
 dependencies {
+    implementation(projects.kpn)
+
+    coreLibraryDesugaring(libs.desugaring)
     implementation(libs.core.ktx)
+    implementation(libs.lifecycle.runtime)
+
     implementation(platform(libs.compose.bom))
-    implementation(libs.tv.foundation)
-    implementation(libs.tv.material)
-    implementation(libs.lifecycle.runtime.ktx)
-    implementation(libs.activity.compose)
-    implementation(libs.material)
+    implementation(libs.compose.activity)
+    implementation(libs.compose.material)
+    implementation(libs.compose.tv.foundation)
+    implementation(libs.compose.tv.material)
 
     implementation(libs.destinations)
     ksp(libs.destinations.ksp)
@@ -75,15 +81,13 @@ dependencies {
     implementation(libs.room.ktx)
     ksp(libs.room.ksp)
 
-    implementation(libs.ktor.client.core)
-    implementation(libs.ktor.client.android)
-    implementation(libs.ktor.client.content.negotiation)
-    implementation(libs.ktor.json)
+    implementation(libs.coil)
 
     implementation(libs.exoplayer)
     implementation(libs.exoplayer.dash)
     implementation(libs.exoplayer.session)
     implementation(libs.exoplayer.ui)
 
-    implementation(libs.coil)
+    detektPlugins(libs.detekt.compose)
+    detektPlugins(libs.detekt.formatting)
 }

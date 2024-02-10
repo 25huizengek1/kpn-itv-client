@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -48,30 +49,30 @@ import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.ramcosta.composedestinations.navigation.navigate
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
-import me.huizengek.kpninteractievetv.LocalNavigator
-import me.huizengek.kpninteractievetv.destinations.WatchScreenDestination
-import me.huizengek.kpninteractievetv.innertube.Channel
-import me.huizengek.kpninteractievetv.innertube.Innertube
+import me.huizengek.kpnclient.ChannelContainer
+import me.huizengek.kpnclient.KpnClient
+import me.huizengek.kpnclient.requests.getChannels
+import me.huizengek.kpninteractievetv.channelState
 import me.huizengek.kpninteractievetv.util.focusOnLaunch
 import me.huizengek.kpninteractievetv.util.focusRequesters
 
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun NowOnTVScreen() {
-    val navigator = LocalNavigator.current
+    val isLoggedIn by KpnClient.isLoggedIn.collectAsState()
 
-    var loadingChannels: Result<List<Channel>>? by remember { mutableStateOf(null) }
+    var loadingChannels: Result<List<ChannelContainer>?>? by remember { mutableStateOf(null) }
     var retrying by remember { mutableStateOf(false) }
 
     var retryCount by rememberSaveable { mutableIntStateOf(1) }
 
-    LaunchedEffect(Innertube.isLoggedIn, retrying) {
+    LaunchedEffect(KpnClient.isLoggedIn, retrying) {
         withContext(Dispatchers.IO) {
-            if ((loadingChannels == null && Innertube.isLoggedIn) || retrying) {
-                loadingChannels = Innertube.getChannels()
+            if ((loadingChannels == null && isLoggedIn) || retrying) {
+                loadingChannels = KpnClient.getChannels()
                 if (retrying) retrying = false
             }
         }
@@ -105,11 +106,14 @@ fun NowOnTVScreen() {
                     },
                 pivotOffsets = PivotOffsets(parentFraction = 0.2f)
             ) {
-                itemsIndexed(channels, key = { _, it -> it.metadata.id }) { i, it ->
+                itemsIndexed(
+                    items = channels,
+                    key = { _, channel -> channel.metadata.id }
+                ) { i, channel ->
                     ChannelItem(
-                        channel = it,
+                        channel = channel,
                         onClick = {
-                            navigator.navigate(WatchScreenDestination(channel = it))
+                            channelState.update { channel }
                         },
                         focusRequester = requesters[i],
                         modifier = Modifier.onFocusChanged {
@@ -141,7 +145,7 @@ fun NowOnTVScreen() {
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(text = "Het laden is nu $retryCount keer mislukt, probeer anders opnieuw in te loggen")
                 Spacer(modifier = Modifier.height(4.dp))
-                OutlinedButton(onClick = { Innertube.logout() }) { Text(text = "Log uit") }
+                OutlinedButton(onClick = { KpnClient.logout() }) { Text(text = "Log uit") }
             }
         }
     } ?: Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -154,7 +158,7 @@ fun NowOnTVScreen() {
 fun ChannelItem(
     modifier: Modifier = Modifier,
     focusRequester: FocusRequester,
-    channel: Channel,
+    channel: ChannelContainer,
     onClick: () -> Unit
 ) {
     val focusColor = MaterialTheme.colorScheme.background.copy(alpha = 0.5f)

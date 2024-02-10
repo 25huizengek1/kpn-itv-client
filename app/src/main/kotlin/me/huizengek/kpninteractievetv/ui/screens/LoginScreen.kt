@@ -40,13 +40,14 @@ import androidx.tv.material3.Text
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.navigate
 import kotlinx.coroutines.launch
+import me.huizengek.kpnclient.KpnClient
 import me.huizengek.kpninteractievetv.Database
 import me.huizengek.kpninteractievetv.LocalNavigator
 import me.huizengek.kpninteractievetv.R
-import me.huizengek.kpninteractievetv.ui.components.LocalSnackBarHost
-import me.huizengek.kpninteractievetv.destinations.AddAccountScreenDestination
-import me.huizengek.kpninteractievetv.innertube.Innertube
 import me.huizengek.kpninteractievetv.models.Session
+import me.huizengek.kpninteractievetv.preferences.KpnPreferences
+import me.huizengek.kpninteractievetv.ui.components.LocalSnackBarHost
+import me.huizengek.kpninteractievetv.ui.screens.destinations.AddAccountScreenDestination
 
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Destination
@@ -56,6 +57,7 @@ fun LoginScreen() {
     val toaster = LocalSnackBarHost.current
 
     val sessions by Database.sessions().collectAsState(initial = listOf())
+    val isLoggedIn by KpnClient.isLoggedIn.collectAsState()
 
     val coroutineScope = rememberCoroutineScope()
     val focusRequester = remember { FocusRequester() }
@@ -64,11 +66,11 @@ fun LoginScreen() {
         focusRequester.requestFocus()
     }
 
-    LaunchedEffect(Innertube.isLoggedIn) {
-        if (Innertube.isLoggedIn) navigator.navigateUp()
+    LaunchedEffect(isLoggedIn) {
+        if (isLoggedIn) navigator.navigateUp()
     }
 
-    BackHandler(enabled = !Innertube.isLoggedIn) {}
+    BackHandler(enabled = !isLoggedIn) {}
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -87,13 +89,18 @@ fun LoginScreen() {
                     AccountItem(
                         onClick = {
                             coroutineScope.launch {
-                                if (!Innertube.use(it))
-                                    toaster.show(
-                                        "Er is een fout opgetreden bij het hervatten van uw sessie\n" +
-                                                "Probeer het later nog eens"
+                                if (
+                                    !KpnClient.use(
+                                        session = it.toApiSession(),
+                                        deviceId = KpnPreferences.deviceId
                                     )
+                                ) toaster.show(
+                                    "Er is een fout opgetreden bij het hervatten van uw sessie\n" +
+                                            "Probeer het later nog eens"
+                                )
                             }
-                        }, session = it
+                        },
+                        session = it
                     )
                 }
                 item {

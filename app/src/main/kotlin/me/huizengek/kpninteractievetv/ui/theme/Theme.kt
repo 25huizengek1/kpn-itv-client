@@ -157,7 +157,11 @@ fun KPNInteractieveTVTheme(
         colorScheme = colorScheme,
         typography = typography
     ) {
-        CompositionLocalProvider(androidx.compose.material3.LocalContentColor provides androidx.compose.material3.contentColorFor(androidx.compose.material3.MaterialTheme.colorScheme.background)) {
+        CompositionLocalProvider(
+            androidx.compose.material3.LocalContentColor provides androidx.compose.material3.contentColorFor(
+                androidx.compose.material3.MaterialTheme.colorScheme.background
+            )
+        ) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()

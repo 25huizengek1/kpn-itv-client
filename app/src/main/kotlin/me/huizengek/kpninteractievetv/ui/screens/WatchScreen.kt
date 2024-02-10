@@ -1,8 +1,8 @@
 package me.huizengek.kpninteractievetv.ui.screens
 
 import android.net.Uri
-import android.view.WindowManager
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,8 +11,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,12 +20,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
+import androidx.media3.common.Player
 import androidx.media3.ui.PlayerView
 import androidx.tv.material3.Button
 import androidx.tv.material3.ExperimentalTvMaterial3Api
@@ -33,55 +33,71 @@ import androidx.tv.material3.Text
 import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import me.huizengek.kpnclient.ChannelContainer
+import me.huizengek.kpnclient.KpnClient
+import me.huizengek.kpnclient.requests.Stream
+import me.huizengek.kpnclient.requests.getStream
 import me.huizengek.kpninteractievetv.LocalNavigator
 import me.huizengek.kpninteractievetv.LocalPlayer
-import me.huizengek.kpninteractievetv.util.findActivity
+import me.huizengek.kpninteractievetv.channelState
+import me.huizengek.kpninteractievetv.preferences.AppPreferences
+import me.huizengek.kpninteractievetv.preferences.KpnPreferences
+import me.huizengek.kpninteractievetv.util.KeepScreenOn
 import me.huizengek.kpninteractievetv.util.focusOnLaunch
-import me.huizengek.kpninteractievetv.innertube.Channel
-import me.huizengek.kpninteractievetv.innertube.Innertube
-import me.huizengek.kpninteractievetv.innertube.Stream
+import me.huizengek.kpninteractievetv.util.playbackState
 
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Destination
 @Composable
-fun WatchScreen(channel: Channel) {
+fun WatchScreen() {
     val navigator = LocalNavigator.current
     val player = LocalPlayer.current
-    val context = LocalContext.current
+    val channel by channelState.collectAsState()
 
-    var streamResult: Result<Stream>? by remember { mutableStateOf(null) }
-    val mediaItem by remember {
+    LaunchedEffect(channel) {
+        if (channel == null) navigator.navigateUp()
+    }
+
+    var streamResult: Result<Stream?>? by remember { mutableStateOf(null) }
+    val mediaItem by remember(channel, streamResult) {
         derivedStateOf {
+            val currentChannel = channel ?: return@derivedStateOf null
             streamResult?.getOrNull()?.let { stream ->
-                (channel to stream).toMediaItem()
+                (currentChannel to stream).toMediaItem()
             }
         }
     }
 
-    LaunchedEffect(Unit) {
+    player ?: return
+
+    val playbackState by player.playbackState()
+
+    LaunchedEffect(channel) {
         withContext(Dispatchers.IO) {
-            streamResult = Innertube.getStream(channel)
+            streamResult = channel?.let {
+                KpnClient.getStream(
+                    channel = it,
+                    deviceId = KpnPreferences.deviceId
+                )
+            }
         }
     }
 
     LaunchedEffect(mediaItem, player) {
         mediaItem?.let { item ->
-            player?.setMediaItem(item)
-            player?.prepare()
-            if (player?.playWhenReady == false) player.playWhenReady = true
-            player?.play()
+            player.setMediaItem(item, true)
+            player.play()
+            player.prepare()
+            player.seekToDefaultPosition()
         }
     }
 
     BackHandler {
-        player?.pause()
+        player.pause()
         navigator.navigateUp()
     }
 
-    DisposableEffect(Unit) {
-        context.findActivity().window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        onDispose { context.findActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON) }
-    }
+    KeepScreenOn(on = AppPreferences.keepScreenOn)
 
     streamResult?.getOrNull()?.let {
         AndroidView(
@@ -107,16 +123,21 @@ fun WatchScreen(channel: Channel) {
                 Text(text = "Ga terug")
             }
         }
-    } ?: Box(
+    }
+
+    Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        CircularProgressIndicator()
+        AnimatedVisibility(visible = streamResult == null || playbackState == Player.STATE_BUFFERING) {
+            CircularProgressIndicator()
+        }
     }
 }
 
-fun Pair<Channel, Stream>.toMediaItem(): MediaItem {
+fun Pair<ChannelContainer, Stream>.toMediaItem(): MediaItem {
     val (channel, stream) = this
+    val name = channel.metadata.name
 
     return MediaItem.Builder()
         .setUri(stream.url)
@@ -125,17 +146,17 @@ fun Pair<Channel, Stream>.toMediaItem(): MediaItem {
                 .setMaxPlaybackSpeed(1.02f)
                 .build()
         ).let {
-            if (stream.licenseAcquisitionURL != null) it.setDrmConfiguration(
+            if (stream.licenseAcquisitionUrl != null) it.setDrmConfiguration(
                 MediaItem.DrmConfiguration.Builder(C.WIDEVINE_UUID)
-                    .setLicenseUri(stream.licenseAcquisitionURL)
+                    .setLicenseUri(stream.licenseAcquisitionUrl)
                     .setMultiSession(true)
                     .build()
             ) else it
         }.setMediaMetadata(
             MediaMetadata.Builder()
-                .setTitle(channel.metadata.name)
-                .setSubtitle(channel.metadata.name)
-                .setDisplayTitle(channel.metadata.name)
+                .setTitle(name)
+                .setSubtitle(name)
+                .setDisplayTitle(name)
                 .setArtworkUri(Uri.parse("https://images.tv.kpn.com/logo/${channel.metadata.externalId}/256.png"))
                 .build()
         ).build()

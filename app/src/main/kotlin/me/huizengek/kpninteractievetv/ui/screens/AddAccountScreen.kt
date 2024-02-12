@@ -44,6 +44,7 @@ import me.huizengek.kpninteractievetv.LocalNavigator
 import me.huizengek.kpninteractievetv.R
 import me.huizengek.kpninteractievetv.models.Session
 import me.huizengek.kpninteractievetv.preferences.KpnPreferences
+import me.huizengek.kpninteractievetv.util.bold
 
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Destination
@@ -65,11 +66,14 @@ fun AddAccountScreen() {
         if (isLoggedIn) navigator.navigateUp()
     }
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
                 text = "Account toevoegen",
-                style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold)
+                style = MaterialTheme.typography.headlineLarge.bold
             )
 
             Spacer(modifier = Modifier.height(12.dp))

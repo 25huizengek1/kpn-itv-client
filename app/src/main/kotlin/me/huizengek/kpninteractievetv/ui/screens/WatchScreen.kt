@@ -42,6 +42,7 @@ import me.huizengek.kpninteractievetv.LocalPlayer
 import me.huizengek.kpninteractievetv.channelState
 import me.huizengek.kpninteractievetv.preferences.AppPreferences
 import me.huizengek.kpninteractievetv.preferences.KpnPreferences
+import me.huizengek.kpninteractievetv.ui.components.Player
 import me.huizengek.kpninteractievetv.util.KeepScreenOn
 import me.huizengek.kpninteractievetv.util.focusOnLaunch
 import me.huizengek.kpninteractievetv.util.playbackState
@@ -100,13 +101,9 @@ fun WatchScreen() {
     KeepScreenOn(on = AppPreferences.keepScreenOn)
 
     streamResult?.getOrNull()?.let {
-        AndroidView(
-            modifier = Modifier.fillMaxSize(),
-            factory = { context ->
-                PlayerView(context).also {
-                    it.player = player
-                }
-            }
+        Player(
+            player = player,
+            modifier = Modifier.fillMaxSize()
         )
     } ?: streamResult?.exceptionOrNull()?.let {
         Column(

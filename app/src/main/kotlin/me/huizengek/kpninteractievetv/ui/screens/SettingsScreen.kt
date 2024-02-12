@@ -17,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.ButtonScale
 import androidx.tv.material3.ClickableSurfaceScale
@@ -28,6 +29,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import me.huizengek.kpnclient.KpnClient
 import me.huizengek.kpninteractievetv.Database
+import me.huizengek.kpninteractievetv.R
 import me.huizengek.kpninteractievetv.preferences.AppPreferences
 import me.huizengek.kpninteractievetv.ui.items.ItemContainer
 import me.huizengek.kpninteractievetv.ui.items.SessionItem
@@ -40,7 +42,7 @@ fun SettingsScreen() = Column {
     val coroutineScope = rememberCoroutineScope { Dispatchers.IO }
 
     Text(
-        text = "Beschikbare accounts/sessies (klik om te verwijderen)",
+        text = stringResource(R.string.current_sessions_header),
         style = MaterialTheme.typography.labelLarge.semiBold,
         modifier = Modifier.padding(start = 48.dp)
     )
@@ -72,7 +74,7 @@ fun SettingsScreen() = Column {
                     .padding(horizontal = 48.dp, vertical = 4.dp),
                 scale = ButtonScale.None
             ) {
-                Text(text = "Nieuwe sessie")
+                Text(text = stringResource(R.string.new_session))
             }
         }
         item {
@@ -81,14 +83,14 @@ fun SettingsScreen() = Column {
         }
         item {
             SwitchSettingsEntry(
-                label = "Donker thema",
+                label = stringResource(R.string.dark_theme),
                 checked = AppPreferences.darkTheme,
                 onToggle = { AppPreferences.darkTheme = !AppPreferences.darkTheme }
             )
         }
         item {
             SwitchSettingsEntry(
-                label = "Houd scherm aan",
+                label = stringResource(R.string.keep_screen_on),
                 checked = AppPreferences.keepScreenOn,
                 onToggle = { AppPreferences.keepScreenOn = !AppPreferences.keepScreenOn }
             )

@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.tv.foundation.PivotOffsets
 import androidx.tv.foundation.lazy.grid.TvGridCells
@@ -37,6 +38,7 @@ import kotlinx.coroutines.withContext
 import me.huizengek.kpnclient.ChannelContainer
 import me.huizengek.kpnclient.KpnClient
 import me.huizengek.kpnclient.requests.getChannels
+import me.huizengek.kpninteractievetv.R
 import me.huizengek.kpninteractievetv.channelState
 import me.huizengek.kpninteractievetv.ui.items.ChannelItem
 import me.huizengek.kpninteractievetv.util.focusOnLaunch
@@ -121,16 +123,18 @@ fun NowOnTVScreen() {
                 },
                 modifier = Modifier.focusOnLaunch(retrying)
             ) {
-                Text(text = "Probeer opnieuw")
+                Text(text = stringResource(R.string.try_again))
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = "Er is een fout opgetreden, probeer het later nogmaals.")
+            Text(text = stringResource(R.string.error_unknown))
 
             if (retryCount >= 2) {
                 Spacer(modifier = Modifier.height(16.dp))
-                Text(text = "Het laden is nu $retryCount keer mislukt, probeer anders opnieuw in te loggen")
+                Text(text = stringResource(R.string.retry_try_logout, retryCount))
                 Spacer(modifier = Modifier.height(4.dp))
-                OutlinedButton(onClick = { KpnClient.logout() }) { Text(text = "Log uit") }
+                OutlinedButton(onClick = { KpnClient.logout() }) {
+                    Text(text = stringResource(R.string.logout))
+                }
             }
         }
     } ?: Box(

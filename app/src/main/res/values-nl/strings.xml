@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">KPN iTV</string>
+    <string name="notification_channel_name">Playback notificaties</string>
+    <string name="add">Toevoegen</string>
+    <string name="confirm_add">Account toevoegen</string>
+    <string name="email">Email</string>
+    <string name="password">Wachtwoord</string>
+    <string name="watch">Kijk</string>
+    <string name="settings">Instellingen</string>
+    <string name="welcome">Welkom bij KPN interactieve TV</string>
+    <string name="welcome_back">Welkom terug bij KPN interactieve TV</string>
+    <string name="error_resume_session">Er is een fout opgetreden bij het hervatten van uw sessie\nProbeer het later nog eens</string>
+    <string name="try_again">Probeer opnieuw</string>
+    <string name="error_unknown">Er is een fout opgetreden, probeer het later nogmaals.</string>
+    <string name="retry_try_logout">Het laden is nu %1$s keer mislukt, probeer anders opnieuw in te loggen</string>
+    <string name="logout">Log uit</string>
+    <string name="current_sessions_header">Beschikbare accounts/sessies (klik om te verwijderen)</string>
+    <string name="new_session">Nieuwe sessie</string>
+    <string name="dark_theme">Donker thema</string>
+    <string name="keep_screen_on">Houd scherm aan</string>
+    <string name="go_back">Ga terug</string>
+</resources>

@@ -23,6 +23,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
@@ -34,16 +35,17 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.navigate
 import me.huizengek.kpnclient.KpnClient
 import me.huizengek.kpninteractievetv.LocalNavigator
+import me.huizengek.kpninteractievetv.R
 import me.huizengek.kpninteractievetv.ui.components.TabHost
 import me.huizengek.kpninteractievetv.ui.components.tabs
 import me.huizengek.kpninteractievetv.ui.screens.destinations.LoginScreenDestination
 
-val tabs = tabs {
-    tab(name = "Kijk") {
+val tabs @Composable get() = tabs {
+    tab(name = stringResource(R.string.watch)) {
         NowOnTVScreen()
     }
 
-    tab(name = "Instellingen") {
+    tab(name = stringResource(R.string.settings)) {
         SettingsScreen()
     }
 }

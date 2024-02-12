@@ -25,7 +25,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -72,7 +72,7 @@ fun AddAccountScreen() {
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
-                text = "Account toevoegen",
+                text = stringResource(R.string.confirm_add),
                 style = MaterialTheme.typography.headlineLarge.bold
             )
 
@@ -88,7 +88,7 @@ fun AddAccountScreen() {
                 modifier = Modifier.focusRequester(focusRequester),
                 maxLines = 1,
                 singleLine = true,
-                placeholder = { Text(text = "Email") },
+                placeholder = { Text(text = stringResource(R.string.email)) },
                 leadingIcon = {
                     Icon(
                         painter = painterResource(R.drawable.person),
@@ -110,7 +110,7 @@ fun AddAccountScreen() {
                 onValueChange = { password = it },
                 maxLines = 1,
                 singleLine = true,
-                placeholder = { Text(text = "Wachtwoord") },
+                placeholder = { Text(text = stringResource(R.string.password)) },
                 leadingIcon = {
                     Icon(
                         painter = painterResource(R.drawable.lock),
@@ -136,18 +136,24 @@ fun AddAccountScreen() {
                     coroutineScope.launch {
                         loading = true
                         if (
-                            KpnClient.login(
+                            !KpnClient.login(
                                 username = username,
                                 password = password,
                                 deviceId = KpnPreferences.deviceId
                             )
-                        ) Database.insert(Session(username = username, password = password))
+                        ) return@launch
+                        Database.insert(
+                            Session(
+                                username = username,
+                                password = password
+                            )
+                        )
                         loading = false
                     }
                 },
                 enabled = !loading
             ) {
-                Text(text = "Toevoegen")
+                Text(text = stringResource(R.string.add))
             }
         }
     }

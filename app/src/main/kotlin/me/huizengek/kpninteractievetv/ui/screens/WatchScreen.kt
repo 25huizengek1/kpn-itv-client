@@ -20,13 +20,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
-import androidx.media3.ui.PlayerView
 import androidx.tv.material3.Button
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.Text
@@ -39,6 +38,7 @@ import me.huizengek.kpnclient.requests.Stream
 import me.huizengek.kpnclient.requests.getStream
 import me.huizengek.kpninteractievetv.LocalNavigator
 import me.huizengek.kpninteractievetv.LocalPlayer
+import me.huizengek.kpninteractievetv.R
 import me.huizengek.kpninteractievetv.channelState
 import me.huizengek.kpninteractievetv.preferences.AppPreferences
 import me.huizengek.kpninteractievetv.preferences.KpnPreferences
@@ -111,13 +111,13 @@ fun WatchScreen() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(text = "Er is iets misgegaan. Probeer het later opnieuw")
+            Text(text = stringResource(R.string.error_unknown))
             Spacer(modifier = Modifier.height(12.dp))
             Button(
                 onClick = { navigator.navigateUp() },
                 modifier = Modifier.focusOnLaunch()
             ) {
-                Text(text = "Ga terug")
+                Text(text = stringResource(R.string.go_back))
             }
         }
     }

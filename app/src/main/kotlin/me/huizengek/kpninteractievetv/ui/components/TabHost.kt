@@ -32,7 +32,7 @@ class TabBuilder {
     fun build() = tabs.toList().sortedBy { it.idx }
 }
 
-fun tabs(block: TabBuilder.() -> Unit) = TabBuilder().apply(block).build()
+inline fun tabs(block: TabBuilder.() -> Unit) = TabBuilder().apply(block).build()
 
 @Composable
 fun TabHost(

@@ -29,7 +29,7 @@ class PlaybackService : MediaSessionService(), Player.Listener {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val channel = NotificationChannel(
             DEFAULT_CHANNEL_ID,
-            "Playback notifications",
+            getString(R.string.notification_channel_name),
             NotificationManager.IMPORTANCE_NONE
         )
         getSystemService<NotificationManager>()?.createNotificationChannel(channel)

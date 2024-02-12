@@ -68,6 +68,9 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime)
 
+    implementation(libs.kotlinx.coroutines)
+    implementation(libs.kotlinx.immutable)
+
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.activity)
     implementation(libs.compose.material)

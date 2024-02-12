@@ -13,3 +13,4 @@ pluginManagement {
 rootProject.name = "kpninteractievetv"
 
 include(":app")
+include(":kpn")

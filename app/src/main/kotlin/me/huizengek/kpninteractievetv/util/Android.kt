@@ -1,6 +1,7 @@
 package me.huizengek.kpninteractievetv.util
 
 import android.app.Activity
+import android.content.ComponentName
 import android.content.Context
 import android.content.ContextWrapper
 import androidx.compose.runtime.Composable
@@ -12,10 +13,10 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 
-fun Modifier.focusOnLaunch(key1: Any = Unit) = composed {
+fun Modifier.focusOnLaunch(key: Any = Unit) = composed {
     val focusRequester = remember { FocusRequester() }
 
-    LaunchedEffect(key1) {
+    LaunchedEffect(key) {
         focusRequester.requestFocus()
     }
 
@@ -24,11 +25,13 @@ fun Modifier.focusOnLaunch(key1: Any = Unit) = composed {
 
 fun Context.findActivity(): Activity {
     var context = this
+
     while (context is ContextWrapper) {
         if (context is Activity) return context
         context = context.baseContext
     }
-    throw IllegalStateException("Should be called in the context of an Activity")
+
+    error("Should be called in the context of an Activity")
 }
 
 @Composable
@@ -43,3 +46,5 @@ fun focusRequesters(): LazyMap<FocusRequester> {
 fun interface LazyMap<T> {
     operator fun get(index: Int): T
 }
+
+inline fun <reified T> Context.component() = ComponentName(applicationContext, T::class.java)

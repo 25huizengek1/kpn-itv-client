@@ -1,10 +1,9 @@
-package me.huizengek.kpninteractievetv.innertube
+package me.huizengek.kpnclient.util
 
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.Cookie
 import io.ktor.http.HttpMessageBuilder
 import io.ktor.http.setCookie
-import me.huizengek.kpninteractievetv.util.cookie
 
 @JvmInline
 value class CookieJar(

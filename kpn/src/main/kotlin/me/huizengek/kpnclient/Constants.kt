@@ -1,4 +1,4 @@
-package me.huizengek.kpninteractievetv.innertube
+package me.huizengek.kpnclient
 
 import io.ktor.client.request.header
 import io.ktor.http.HttpMessageBuilder

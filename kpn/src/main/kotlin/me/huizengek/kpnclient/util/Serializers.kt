@@ -12,7 +12,7 @@ import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 private val tz = TimeZone.UTC
 
@@ -32,7 +32,7 @@ typealias MillisLocalDateTime =
 
 object SecondsDurationSerializer : KSerializer<Duration> {
     override val descriptor = PrimitiveSerialDescriptor("SecondsDuration", PrimitiveKind.LONG)
-    override fun deserialize(decoder: Decoder) = decoder.decodeLong().minutes
+    override fun deserialize(decoder: Decoder) = decoder.decodeLong().seconds
     override fun serialize(encoder: Encoder, value: Duration) = encoder.encodeLong(value.inWholeSeconds)
 }
 

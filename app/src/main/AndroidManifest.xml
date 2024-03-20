@@ -26,8 +26,8 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:banner="@drawable/ic_banner_foreground"
-            android:logo="@drawable/ic_banner_foreground">
+            android:banner="@mipmap/ic_banner"
+            android:logo="@mipmap/ic_banner_foreground">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

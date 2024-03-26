@@ -13,7 +13,7 @@ tv = "1.0.0-alpha10"
 lifecycle = "2.7.0"
 destinations = "1.10.2"
 media3 = "1.3.0"
-detekt = "1.23.5"
+detekt = "1.23.6"
 
 [plugins]
 kotlin_jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

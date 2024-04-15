@@ -7,7 +7,7 @@ jvm = "17"
 
 compose-compiler = "1.5.9"
 
-ktor = "2.3.9"
+ktor = "2.3.10"
 room = "2.6.1"
 tv = "1.0.0-alpha10"
 lifecycle = "2.7.0"

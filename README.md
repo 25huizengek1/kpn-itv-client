@@ -15,7 +15,7 @@ by [opening an issue](https://github.com/25huizengek1/kpn-itv-client/issues/new/
 
 ## License
 
-The source code of this project is protected under GNU GPLv3. You can find a copy in the `LiCENSE`
+The source code of this project is protected under GNU GPLv3. You can find a copy in the `LICENSE`
 file.
 
 ## Disclaimer

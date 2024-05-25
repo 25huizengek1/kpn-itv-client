@@ -6,8 +6,8 @@ import me.huizengek.kpnclient.ChannelContainer
 import me.huizengek.kpnclient.ContainerResponse
 import me.huizengek.kpnclient.KpnClient
 import me.huizengek.kpnclient.QueryResponse
+import me.huizengek.kpnclient.ROOT
 import me.huizengek.kpnclient.SortOrder
-import me.huizengek.kpnclient.root
 import me.huizengek.kpnclient.util.plusAssign
 import me.huizengek.kpnclient.util.runCatchingCancellable
 import me.huizengek.kpnclient.util.save
@@ -20,7 +20,7 @@ suspend fun KpnClient.getChannels(
     filterNoAdult: Boolean = false
 ) = channelCache?.let { Result.success(it) } ?: runCatchingCancellable {
     val channels = httpClient
-        .get("$root/TRAY/LIVECHANNELS") {
+        .get("$ROOT/TRAY/LIVECHANNELS") {
             "orderBy" += "orderId"
             "sortOrder" += order.value
             "from" += from

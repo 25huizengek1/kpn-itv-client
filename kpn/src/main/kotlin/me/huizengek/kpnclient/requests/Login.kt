@@ -12,7 +12,7 @@ import kotlinx.serialization.json.JsonElement
 import me.huizengek.kpnclient.AuthInfo
 import me.huizengek.kpnclient.KpnClient
 import me.huizengek.kpnclient.QueryResponse
-import me.huizengek.kpnclient.root
+import me.huizengek.kpnclient.ROOT
 import me.huizengek.kpnclient.util.runCatchingCancellable
 import me.huizengek.kpnclient.util.save
 
@@ -26,7 +26,7 @@ suspend fun KpnClient.login(
         jar += Cookie(name = "_ga", value = "GA1.2.166396111.1682809839")
         jar += Cookie(name = "_gat", value = "1")
 
-        httpClient.post("$root/USER/SESSIONS") {
+        httpClient.post("$ROOT/USER/SESSIONS") {
             setBody(
                 CredentialsBody(
                     credentials = AuthInfo(

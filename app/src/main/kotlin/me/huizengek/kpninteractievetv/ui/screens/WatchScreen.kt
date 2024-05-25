@@ -27,7 +27,6 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
 import androidx.tv.material3.Button
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.Text
 import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.Dispatchers
@@ -47,7 +46,6 @@ import me.huizengek.kpninteractievetv.util.KeepScreenOn
 import me.huizengek.kpninteractievetv.util.focusOnLaunch
 import me.huizengek.kpninteractievetv.util.playbackState
 
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Destination
 @Composable
 fun WatchScreen() {

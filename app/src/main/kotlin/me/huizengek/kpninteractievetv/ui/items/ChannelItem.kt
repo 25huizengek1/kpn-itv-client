@@ -16,7 +16,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.LocalTextStyle
 import androidx.tv.material3.Text
 import coil.compose.AsyncImage
@@ -24,12 +23,12 @@ import coil.request.ImageRequest
 import me.huizengek.kpnclient.ChannelContainer
 import me.huizengek.kpninteractievetv.util.semiBold
 
-@OptIn(ExperimentalTvMaterial3Api::class)
+@Suppress("ModifierMissing")
 @Composable
 fun ChannelItem(
-    modifier: Modifier = Modifier,
     channel: ChannelContainer,
     focusRequester: FocusRequester,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) = Column(
     modifier = modifier,

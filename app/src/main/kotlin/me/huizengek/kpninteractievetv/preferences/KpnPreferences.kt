@@ -1,7 +1,7 @@
 package me.huizengek.kpninteractievetv.preferences
 
-import me.huizengek.kpninteractievetv.GlobalPreferencesHolder
 import me.huizengek.kpnclient.util.sha256
+import me.huizengek.kpninteractievetv.GlobalPreferencesHolder
 import kotlin.random.Random
 
 private fun randomDeviceId(): String {

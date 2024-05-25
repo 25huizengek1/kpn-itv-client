@@ -1,6 +1,9 @@
 package me.huizengek.kpninteractievetv.ui.components
 
-import androidx.compose.animation.Crossfade
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ContentTransform
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -14,7 +17,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 import kotlinx.coroutines.CoroutineScope
@@ -27,7 +29,8 @@ import me.huizengek.kpninteractievetv.util.lateinitCompositionLocalOf
 
 class SnackBarHost {
     private val mutex = Mutex()
-    private val coroutineScope = CoroutineScope(Dispatchers.Default)
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
+
     var state: String? by mutableStateOf(null)
         private set
 
@@ -43,38 +46,42 @@ class SnackBarHost {
     }
 }
 
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun SnackBarHost(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
-) {
+) = Box(modifier = modifier) {
     val snackBarHost = remember { SnackBarHost() }
 
-    Box(modifier = modifier) {
-        CompositionLocalProvider(
-            value = LocalSnackBarHost provides snackBarHost,
-            content = content
-        )
+    CompositionLocalProvider(
+        value = LocalSnackBarHost provides snackBarHost,
+        content = content
+    )
 
-        Crossfade(
-            targetState = snackBarHost.state,
-            label = ""
-        ) {
-            if (it != null) Box(
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(all = 24.dp)
-                    .background(
-                        color = MaterialTheme.colorScheme.surface,
-                        shape = RoundedCornerShape(12.dp)
-                    )
-            ) {
-                Text(
-                    text = it,
-                    modifier = Modifier.padding(all = 16.dp)
+    AnimatedContent(
+        targetState = snackBarHost.state,
+        label = "",
+        transitionSpec = {
+            ContentTransform(
+                targetContentEnter = fadeIn(),
+                initialContentExit = fadeOut(),
+                sizeTransform = null
+            )
+        }
+    ) { text ->
+        if (text != null) Box(
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(all = 24.dp)
+                .background(
+                    color = MaterialTheme.colorScheme.surface,
+                    shape = RoundedCornerShape(12.dp)
                 )
-            }
+        ) {
+            Text(
+                text = text,
+                modifier = Modifier.padding(all = 16.dp)
+            )
         }
     }
 }

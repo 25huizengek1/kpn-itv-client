@@ -51,12 +51,11 @@ class PlaybackService : MediaSessionService(), Player.Listener {
         super.onCreate()
 
         val player = ExoPlayer.Builder(this)
-            .apply {
-                setMediaSourceFactory(DefaultMediaSourceFactory(applicationContext).apply {
+            .setMediaSourceFactory(
+                DefaultMediaSourceFactory(applicationContext).apply {
                     setLiveTargetOffsetMs(5000)
-                })
-                setHandleAudioBecomingNoisy(true)
-            }
+                }
+            ).setHandleAudioBecomingNoisy(true)
             .build()
             .apply {
                 if (BuildConfig.DEBUG) addAnalyticsListener(EventLogger())

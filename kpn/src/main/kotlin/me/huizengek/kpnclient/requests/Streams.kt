@@ -7,16 +7,16 @@ import io.ktor.http.ContentType
 import kotlinx.datetime.LocalDateTime
 import me.huizengek.kpnclient.ChannelContainer
 import me.huizengek.kpnclient.KpnClient
+import me.huizengek.kpnclient.PROFILE
 import me.huizengek.kpnclient.QueryResponse
+import me.huizengek.kpnclient.ROOT
 import me.huizengek.kpnclient.StreamResponse
-import me.huizengek.kpnclient.profile
-import me.huizengek.kpnclient.root
 import me.huizengek.kpnclient.util.plusAssign
 import me.huizengek.kpnclient.util.runCatchingCancellable
 import me.huizengek.kpnclient.util.save
 
 suspend fun KpnClient.refreshDsh(deviceId: String) = runCatchingCancellable {
-    httpClient.get("$root/USER/DSHTOKEN") {
+    httpClient.get("$ROOT/USER/DSHTOKEN") {
         "deviceId" += deviceId
         accept(ContentType.Any)
     }.save(jar)
@@ -29,9 +29,9 @@ suspend fun KpnClient.getStream(
 ) = runCatchingCancellable {
     refreshDsh(deviceId)
 
-    val stream = httpClient.get("$root/CONTENT/VIDEOURL/LIVE/${channel.metadata.id}/${asset.id}") {
+    val stream = httpClient.get("$ROOT/CONTENT/VIDEOURL/LIVE/${channel.metadata.id}/${asset.id}") {
         "deviceId" += deviceId
-        "profile" += profile
+        "profile" += PROFILE
         accept(ContentType.Any)
     }
         .save(jar)

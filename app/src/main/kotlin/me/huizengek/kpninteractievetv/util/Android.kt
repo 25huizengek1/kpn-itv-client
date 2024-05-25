@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
 import android.content.ContextWrapper
+import android.content.Intent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateMapOf
@@ -13,6 +14,7 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 
+@Suppress("ModifierComposed")
 fun Modifier.focusOnLaunch(key: Any = Unit) = composed {
     val focusRequester = remember { FocusRequester() }
 
@@ -48,3 +50,4 @@ fun interface LazyMap<T> {
 }
 
 inline fun <reified T> Context.component() = ComponentName(applicationContext, T::class.java)
+inline fun <reified T> Context.intent() = Intent(applicationContext, T::class.java)

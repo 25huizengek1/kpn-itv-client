@@ -16,13 +16,11 @@ import androidx.tv.material3.ClickableSurfaceDefaults
 import androidx.tv.material3.ClickableSurfaceGlow
 import androidx.tv.material3.ClickableSurfaceScale
 import androidx.tv.material3.ClickableSurfaceShape
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.Glow
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import me.huizengek.kpninteractievetv.util.alpha
 
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun ItemContainer(
     onClick: () -> Unit,

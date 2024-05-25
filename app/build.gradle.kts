@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.android.application)
     alias(libs.plugins.ksp)
 }
@@ -31,15 +32,10 @@ android {
 
     buildFeatures {
         buildConfig = true
-        compose = true
     }
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 
     packaging {
@@ -51,6 +47,10 @@ android {
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + listOf("-Xcontext-receivers")
     }
+}
+
+composeCompiler {
+    enableStrongSkippingMode = true
 }
 
 kotlin {

@@ -22,9 +22,10 @@ internal fun HttpMessageBuilder.kpnHeaders() {
     header("sec-fetch-site", "same-site")
     header(
         "user-agent",
+        @Suppress("MaximumLineLength")
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
     )
     header("x-xsrf-token", "null")
 }
 
-internal const val profile = "G03"
+internal const val PROFILE = "G03"

@@ -1,7 +1,6 @@
 package me.huizengek.kpninteractievetv
 
 import android.app.Application
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -35,6 +34,7 @@ import me.huizengek.kpninteractievetv.ui.screens.NavGraphs
 import me.huizengek.kpninteractievetv.ui.screens.destinations.WatchScreenDestination
 import me.huizengek.kpninteractievetv.ui.theme.MaterialContext
 import me.huizengek.kpninteractievetv.util.component
+import me.huizengek.kpninteractievetv.util.intent
 import me.huizengek.kpninteractievetv.util.lateinitCompositionLocalOf
 
 object Dependencies {
@@ -76,37 +76,38 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val sessionToken = SessionToken(applicationContext, component<PlaybackService>())
+        mediaController = MediaController.Builder(
+            /* context = */ applicationContext,
+            /* token = */ SessionToken(applicationContext, component<PlaybackService>())
+        ).buildAsync()
+        startForegroundService(intent<PlaybackService>())
 
-        mediaController = MediaController.Builder(applicationContext, sessionToken).buildAsync()
+        setContent()
+    }
 
-        startForegroundService(Intent(applicationContext, PlaybackService::class.java))
+    private fun setContent() = setContent {
+        val engine = rememberNavHostEngine()
+        val controller = engine.rememberNavController()
 
-        setContent {
-            val engine = rememberNavHostEngine()
-            val controller = engine.rememberNavController()
+        MaterialContext {
+            SnackBarHost(modifier = Modifier.fillMaxSize()) {
+                CompositionLocalProvider(
+                    LocalNavigator provides controller,
+                    LocalPlayer provides Dependencies.player
+                ) {
+                    val channel by channelState.collectAsState()
+                    val isWatching by controller.isRouteOnBackStackAsState(route = WatchScreenDestination)
 
-            MaterialContext {
-                SnackBarHost(modifier = Modifier.fillMaxSize()) {
-                    CompositionLocalProvider(
-                        LocalNavigator provides controller,
-                        LocalPlayer provides Dependencies.player
-                    ) {
-                        val channel by channelState.collectAsState()
-                        val isWatching by controller.isRouteOnBackStackAsState(route = WatchScreenDestination)
-
-                        LaunchedEffect(channel) {
-                            if (channel != null && !isWatching)
-                                controller.navigate(WatchScreenDestination)
-                        }
-
-                        DestinationsNavHost(
-                            navGraph = NavGraphs.root,
-                            modifier = Modifier.fillMaxSize(),
-                            engine = engine,
-                            navController = controller
-                        )
+                    LaunchedEffect(channel) {
+                        if (channel != null && !isWatching) controller.navigate(WatchScreenDestination)
                     }
+
+                    DestinationsNavHost(
+                        navGraph = NavGraphs.root,
+                        modifier = Modifier.fillMaxSize(),
+                        engine = engine,
+                        navController = controller
+                    )
                 }
             }
         }

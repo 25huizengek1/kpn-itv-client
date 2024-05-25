@@ -29,7 +29,6 @@ import androidx.tv.foundation.lazy.grid.TvGridCells
 import androidx.tv.foundation.lazy.grid.TvLazyVerticalGrid
 import androidx.tv.foundation.lazy.grid.itemsIndexed
 import androidx.tv.material3.Button
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.OutlinedButton
 import androidx.tv.material3.Text
 import kotlinx.coroutines.Dispatchers
@@ -44,7 +43,7 @@ import me.huizengek.kpninteractievetv.ui.items.ChannelItem
 import me.huizengek.kpninteractievetv.util.focusOnLaunch
 import me.huizengek.kpninteractievetv.util.focusRequesters
 
-@OptIn(ExperimentalTvMaterial3Api::class)
+@Suppress("ModifierMissing")
 @Composable
 fun NowOnTVScreen() {
     val isLoggedIn by KpnClient.isLoggedIn.collectAsState()

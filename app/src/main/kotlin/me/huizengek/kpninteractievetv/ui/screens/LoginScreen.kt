@@ -22,7 +22,6 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 import com.ramcosta.composedestinations.annotation.Destination
@@ -38,7 +37,6 @@ import me.huizengek.kpninteractievetv.ui.items.AccountItem
 import me.huizengek.kpninteractievetv.ui.screens.destinations.AddAccountScreenDestination
 import me.huizengek.kpninteractievetv.util.bold
 
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Destination
 @Composable
 fun LoginScreen() {

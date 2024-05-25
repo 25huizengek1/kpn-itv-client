@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.LocalContentColor
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.contentColorFor
@@ -45,10 +44,9 @@ private val lightColors = androidx.compose.material3.lightColorScheme(
     inversePrimary = md_theme_light_inversePrimary,
     surfaceTint = md_theme_light_surfaceTint,
     outlineVariant = md_theme_light_outlineVariant,
-    scrim = md_theme_light_scrim,
+    scrim = md_theme_light_scrim
 )
 
-@OptIn(ExperimentalTvMaterial3Api::class)
 private val lightColorsTv = lightColorScheme(
     primary = md_theme_light_primary,
     onPrimary = md_theme_light_onPrimary,
@@ -78,7 +76,7 @@ private val lightColorsTv = lightColorScheme(
     inversePrimary = md_theme_light_inversePrimary,
     surfaceTint = md_theme_light_surfaceTint,
     borderVariant = md_theme_light_outlineVariant,
-    scrim = md_theme_light_scrim,
+    scrim = md_theme_light_scrim
 )
 
 private val darkColors = androidx.compose.material3.darkColorScheme(
@@ -110,10 +108,9 @@ private val darkColors = androidx.compose.material3.darkColorScheme(
     inversePrimary = md_theme_dark_inversePrimary,
     surfaceTint = md_theme_dark_surfaceTint,
     outlineVariant = md_theme_dark_outlineVariant,
-    scrim = md_theme_dark_scrim,
+    scrim = md_theme_dark_scrim
 )
 
-@OptIn(ExperimentalTvMaterial3Api::class)
 private val darkColorsTv = darkColorScheme(
     primary = md_theme_dark_primary,
     onPrimary = md_theme_dark_onPrimary,
@@ -143,13 +140,14 @@ private val darkColorsTv = darkColorScheme(
     inversePrimary = md_theme_dark_inversePrimary,
     surfaceTint = md_theme_dark_surfaceTint,
     borderVariant = md_theme_dark_outlineVariant,
-    scrim = md_theme_dark_scrim,
+    scrim = md_theme_dark_scrim
 )
 
 @Composable
 fun KPNInteractieveTVTheme(
+    modifier: Modifier = Modifier,
     darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable BoxScope.() -> Unit,
+    content: @Composable BoxScope.() -> Unit
 ) {
     val colorScheme = if (darkTheme) darkColors else lightColors
 
@@ -163,7 +161,7 @@ fun KPNInteractieveTVTheme(
             )
         ) {
             Box(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxSize()
                     .background(colorScheme.background),
                 content = content
@@ -172,11 +170,11 @@ fun KPNInteractieveTVTheme(
     }
 }
 
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun KPNInteractieveTVTVTheme(
+    modifier: Modifier = Modifier,
     darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable BoxScope.() -> Unit,
+    content: @Composable BoxScope.() -> Unit
 ) {
     val colorScheme = if (darkTheme) darkColorsTv else lightColorsTv
 
@@ -186,7 +184,7 @@ fun KPNInteractieveTVTVTheme(
     ) {
         CompositionLocalProvider(LocalContentColor provides contentColorFor(colorScheme.background)) {
             Box(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxSize()
                     .background(colorScheme.background),
                 content = content
@@ -196,8 +194,14 @@ fun KPNInteractieveTVTVTheme(
 }
 
 @Composable
-fun MaterialContext(content: @Composable BoxScope.() -> Unit) {
-    KPNInteractieveTVTheme(darkTheme = AppPreferences.darkTheme) {
+fun MaterialContext(
+    modifier: Modifier = Modifier,
+    content: @Composable BoxScope.() -> Unit
+) {
+    KPNInteractieveTVTheme(
+        darkTheme = AppPreferences.darkTheme,
+        modifier = modifier
+    ) {
         KPNInteractieveTVTVTheme(
             darkTheme = AppPreferences.darkTheme,
             content = content

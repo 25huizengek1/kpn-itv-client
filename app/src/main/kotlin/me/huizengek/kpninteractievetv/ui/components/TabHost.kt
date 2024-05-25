@@ -20,7 +20,6 @@ import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.Tab
 import androidx.tv.material3.Text
 import kotlinx.collections.immutable.ImmutableList
@@ -55,7 +54,7 @@ fun tabs(block: TabBuilder.() -> Unit) = TabBuilder().apply(block).build()
 @Composable
 fun TabHost(
     index: Int,
-    tabs: List<Tab>,
+    tabs: ImmutableList<Tab>,
     modifier: Modifier = Modifier
 ) = AnimatedContent(
     targetState = index,
@@ -82,7 +81,6 @@ fun TabHost(
     tabs[i].content()
 }
 
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun TabRow(
     tabs: ImmutableList<Tab>,

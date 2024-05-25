@@ -57,5 +57,5 @@ exoplayer_dash = { group = "androidx.media3", name = "media3-exoplayer-dash", ve
 exoplayer_session = { group = "androidx.media3", name = "media3-session", version.ref = "media3" }
 exoplayer_ui = { group = "androidx.media3", name = "media3-ui", version.ref = "media3" }
 
-detekt_compose = { group = "io.nlopez.compose.rules", name = "detekt", version = "0.3.20" }
+detekt_compose = { group = "io.nlopez.compose.rules", name = "detekt", version = "0.4.1" }
 detekt_formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detekt" }

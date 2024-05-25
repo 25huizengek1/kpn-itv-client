@@ -9,3 +9,5 @@
 .cxx
 local.properties
 release/
+
+.kotlin

@@ -5,7 +5,7 @@ ksp = "2.0.0-1.0.22"
 
 jvm = "17"
 
-ktor = "2.3.11"
+ktor = "2.3.12"
 room = "2.6.1"
 lifecycle = "2.8.3"
 destinations = "1.10.2"

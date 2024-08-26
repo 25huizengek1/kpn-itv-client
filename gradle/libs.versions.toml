@@ -35,7 +35,7 @@ lifecycle_runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-kt
 compose_activity = { group = "androidx.activity", name = "activity-compose", version = "1.9.0" }
 compose_bom = { group = "androidx.compose", name = "compose-bom", version = "2024.06.00" }
 compose_material = { group = "androidx.compose.material3", name = "material3", version = "1.2.1" }
-compose_tv_material = { group = "androidx.tv", name = "tv-material", version = "1.0.0-beta01" }
+compose_tv_material = { group = "androidx.tv", name = "tv-material", version = "1.0.0" }
 compose_tv_foundation = { group = "androidx.tv", name = "tv-foundation", version = "1.0.0-alpha10" }
 
 destinations = { group = "io.github.raamcosta.compose-destinations", name = "core", version.ref = "destinations" }

@@ -32,7 +32,7 @@ desugaring = { group = "com.android.tools", name = "desugar_jdk_libs", version =
 core_ktx = { group = "androidx.core", name = "core-ktx", version = "1.13.1" }
 lifecycle_runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
 
-compose_activity = { group = "androidx.activity", name = "activity-compose", version = "1.9.0" }
+compose_activity = { group = "androidx.activity", name = "activity-compose", version = "1.9.3" }
 compose_bom = { group = "androidx.compose", name = "compose-bom", version = "2024.06.00" }
 compose_material = { group = "androidx.compose.material3", name = "material3", version = "1.2.1" }
 compose_tv_material = { group = "androidx.tv", name = "tv-material", version = "1.0.0-beta01" }

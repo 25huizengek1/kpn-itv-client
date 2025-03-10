@@ -9,7 +9,7 @@ ktor = "2.3.12"
 room = "2.6.1"
 lifecycle = "2.8.7"
 destinations = "1.10.2"
-media3 = "1.4.0"
+media3 = "1.5.1"
 detekt = "1.23.6"
 
 [plugins]

@@ -8,7 +8,7 @@ jvm = "17"
 ktor = "3.1.1"
 room = "2.6.1"
 lifecycle = "2.8.7"
-destinations = "1.10.2"
+destinations = "2.1.0"
 media3 = "1.5.1"
 detekt = "1.23.6"
 

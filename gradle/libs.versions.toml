@@ -10,7 +10,7 @@ room = "2.6.1"
 lifecycle = "2.8.7"
 destinations = "1.10.2"
 media3 = "1.5.1"
-detekt = "1.23.6"
+detekt = "1.23.8"
 
 [plugins]
 kotlin_jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

@@ -24,10 +24,9 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.tv.foundation.PivotOffsets
-import androidx.tv.foundation.lazy.grid.TvGridCells
-import androidx.tv.foundation.lazy.grid.TvLazyVerticalGrid
-import androidx.tv.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.tv.material3.Button
 import androidx.tv.material3.OutlinedButton
 import androidx.tv.material3.Text
@@ -72,13 +71,14 @@ fun NowOnTVScreen() {
         CircularProgressIndicator()
     } else loadingChannels?.getOrNull()?.let { channels ->
         BoxWithConstraints {
+            val maxHeight = this.maxHeight // Happy, Lint?
             val requesters = focusRequesters()
 
             var wasFocused by rememberSaveable { mutableStateOf(false) }
             var lastFocused: FocusRequester? by remember { mutableStateOf(null) }
 
-            TvLazyVerticalGrid(
-                columns = TvGridCells.Fixed(5),
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(5),
                 modifier = Modifier
                     .padding(horizontal = 12.dp)
                     .height(maxHeight)
@@ -87,8 +87,7 @@ fun NowOnTVScreen() {
                         if (!wasFocused && isFocusedNow)
                             (lastFocused ?: requesters[0]).requestFocus()
                         wasFocused = isFocusedNow
-                    },
-                pivotOffsets = PivotOffsets(parentFraction = 0.2f)
+                    }
             ) {
                 itemsIndexed(
                     items = channels,

@@ -1,16 +1,17 @@
 [versions]
-agp = "8.6.0-alpha02"
+agp = "8.10.1"
 kotlin = "2.1.20"
-ksp = "2.1.20-1.0.32"
+ksp = "2.1.20-2.0.1"
 
-jvm = "17"
+jvm = "23"
 
-ktor = "3.1.2"
-room = "2.6.1"
-lifecycle = "2.8.7"
-destinations = "2.1.0"
-media3 = "1.5.1"
+ktor = "3.1.3"
+room = "2.7.2"
+lifecycle = "2.9.1"
+destinations = "2.1.1"
+media3 = "1.7.1"
 detekt = "1.23.8"
+coil = "3.1.0"
 
 [plugins]
 kotlin_jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -25,18 +26,17 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 
 [libraries]
 kotlinx_datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version = "0.6.2" }
-kotlinx_coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version = "1.10.1" }
+kotlinx_coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version = "1.10.2" }
 kotlinx_immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version = "0.3.7" }
 
-desugaring = { group = "com.android.tools", name = "desugar_jdk_libs", version = "2.0.4" }
-core_ktx = { group = "androidx.core", name = "core-ktx", version = "1.15.0" }
+desugaring = { group = "com.android.tools", name = "desugar_jdk_libs", version = "2.1.5" }
+core_ktx = { group = "androidx.core", name = "core-ktx", version = "1.16.0" }
 lifecycle_runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
 
 compose_activity = { group = "androidx.activity", name = "activity-compose", version = "1.10.1" }
-compose_bom = { group = "androidx.compose", name = "compose-bom", version = "2025.03.00" }
-compose_material = { group = "androidx.compose.material3", name = "material3", version = "1.2.1" }
-compose_tv_material = { group = "androidx.tv", name = "tv-material", version = "1.0.0" }
-compose_tv_foundation = { group = "androidx.tv", name = "tv-foundation", version = "1.0.0-alpha12" }
+compose_bom = { group = "androidx.compose", name = "compose-bom", version = "2025.06.01" }
+compose_material = { group = "androidx.compose.material3", name = "material3", version = "1.3.2" }
+compose_tv_material = { group = "androidx.tv", name = "tv-material", version = "1.1.0-alpha01" }
 
 destinations = { group = "io.github.raamcosta.compose-destinations", name = "core", version.ref = "destinations" }
 destinations_ksp = { group = "io.github.raamcosta.compose-destinations", name = "ksp", version.ref = "destinations" }
@@ -50,7 +50,8 @@ ktor_client_android = { group = "io.ktor", name = "ktor-client-android", version
 ktor_client_contentNegotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
 ktor_json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 
-coil = { group = "io.coil-kt", name = "coil-compose", version = "2.7.0" }
+coil_compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil_ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
 
 exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "media3" }
 exoplayer_dash = { group = "androidx.media3", name = "media3-exoplayer-dash", version.ref = "media3" }

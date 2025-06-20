@@ -17,14 +17,19 @@ import androidx.media3.common.Player
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
 import androidx.navigation.NavController
-import coil.ImageLoader
-import coil.ImageLoaderFactory
-import coil.disk.DiskCache
+import coil3.ImageLoader
+import coil3.PlatformContext
+import coil3.SingletonImageLoader
+import coil3.bitmapFactoryExifOrientationStrategy
+import coil3.decode.ExifOrientationStrategy
+import coil3.disk.DiskCache
+import coil3.request.crossfade
 import com.google.common.util.concurrent.ListenableFuture
 import com.ramcosta.composedestinations.DestinationsNavHost
-import com.ramcosta.composedestinations.navigation.navigate
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.rememberNavHostEngine
 import com.ramcosta.composedestinations.utils.isRouteOnBackStackAsState
+import com.ramcosta.composedestinations.utils.rememberDestinationsNavigator
 import kotlinx.coroutines.flow.MutableStateFlow
 import me.huizengek.kpnclient.ChannelContainer
 import me.huizengek.kpninteractievetv.preferences.PreferencesHolder
@@ -33,9 +38,11 @@ import me.huizengek.kpninteractievetv.ui.components.SnackBarHost
 import me.huizengek.kpninteractievetv.ui.screens.NavGraphs
 import me.huizengek.kpninteractievetv.ui.screens.destinations.WatchScreenDestination
 import me.huizengek.kpninteractievetv.ui.theme.MaterialContext
+import me.huizengek.kpninteractievetv.util.LazyLayoutPivotProvider
 import me.huizengek.kpninteractievetv.util.component
 import me.huizengek.kpninteractievetv.util.intent
 import me.huizengek.kpninteractievetv.util.lateinitCompositionLocalOf
+import okio.Path.Companion.toOkioPath
 
 object Dependencies {
     lateinit var application: InteractieveTVApplication
@@ -50,19 +57,19 @@ object Dependencies {
 
 open class GlobalPreferencesHolder : PreferencesHolder(Dependencies.application, "preferences")
 
-class InteractieveTVApplication : Application(), ImageLoaderFactory {
+class InteractieveTVApplication : Application(), SingletonImageLoader.Factory {
     override fun onCreate() {
         super.onCreate()
 
         Dependencies.init()
     }
 
-    override fun newImageLoader() = ImageLoader.Builder(this)
+    override fun newImageLoader(context: PlatformContext) = ImageLoader.Builder(this)
         .crossfade(true)
-        .respectCacheHeaders(false)
+        .bitmapFactoryExifOrientationStrategy(ExifOrientationStrategy.IGNORE)
         .diskCache(
             DiskCache.Builder()
-                .directory(cacheDir.resolve("coil"))
+                .directory(context.cacheDir.resolve("coil").toOkioPath())
                 .maxSizeBytes(104857600L)
                 .build()
         ).build()
@@ -88,26 +95,29 @@ class MainActivity : ComponentActivity() {
     private fun setContent() = setContent {
         val engine = rememberNavHostEngine()
         val controller = engine.rememberNavController()
+        val navigator = controller.rememberDestinationsNavigator()
 
         MaterialContext {
             SnackBarHost(modifier = Modifier.fillMaxSize()) {
                 CompositionLocalProvider(
-                    LocalNavigator provides controller,
+                    LocalNavigator provides navigator,
                     LocalPlayer provides Dependencies.player
                 ) {
                     val channel by channelState.collectAsState()
                     val isWatching by controller.isRouteOnBackStackAsState(route = WatchScreenDestination)
 
                     LaunchedEffect(channel) {
-                        if (channel != null && !isWatching) controller.navigate(WatchScreenDestination)
+                        if (channel != null && !isWatching) navigator.navigate(WatchScreenDestination)
                     }
 
-                    DestinationsNavHost(
-                        navGraph = NavGraphs.root,
-                        modifier = Modifier.fillMaxSize(),
-                        engine = engine,
-                        navController = controller
-                    )
+                    LazyLayoutPivotProvider {
+                        DestinationsNavHost(
+                            navGraph = NavGraphs.root,
+                            modifier = Modifier.fillMaxSize(),
+                            engine = engine,
+                            navController = controller
+                        )
+                    }
                 }
             }
         }
@@ -120,5 +130,5 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-val LocalNavigator = lateinitCompositionLocalOf<NavController>()
+val LocalNavigator = lateinitCompositionLocalOf<DestinationsNavigator>()
 val LocalPlayer = compositionLocalOf<Player?> { null }

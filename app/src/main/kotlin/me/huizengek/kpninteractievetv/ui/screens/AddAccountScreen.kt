@@ -34,6 +34,7 @@ import androidx.tv.material3.Icon
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootGraph
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import me.huizengek.kpnclient.KpnClient
@@ -45,7 +46,7 @@ import me.huizengek.kpninteractievetv.models.Session
 import me.huizengek.kpninteractievetv.preferences.KpnPreferences
 import me.huizengek.kpninteractievetv.util.bold
 
-@Destination
+@Destination<RootGraph>
 @Composable
 fun AddAccountScreen() {
     val focusManager = LocalFocusManager.current

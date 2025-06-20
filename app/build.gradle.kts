@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag
+
 plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
@@ -8,12 +10,12 @@ plugins {
 
 android {
     namespace = project.group.toString()
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = project.group.toString()
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = project.version.toString()
 
@@ -50,7 +52,9 @@ android {
 }
 
 composeCompiler {
-    enableStrongSkippingMode = true
+    featureFlags.addAll(
+        ComposeFeatureFlag.StrongSkipping
+    )
 }
 
 kotlin {
@@ -59,6 +63,7 @@ kotlin {
 
 ksp {
     arg("room.schemaLocation", projectDir.resolve("src/main/room/schemas").absolutePath)
+    arg("compose-destinations.codeGenPackageName", "me.huizengek.kpninteractievetv.ui.screens")
 }
 
 dependencies {
@@ -74,7 +79,6 @@ dependencies {
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.activity)
     implementation(libs.compose.material)
-    implementation(libs.compose.tv.foundation)
     implementation(libs.compose.tv.material)
 
     implementation(libs.destinations)
@@ -84,7 +88,8 @@ dependencies {
     implementation(libs.room.ktx)
     ksp(libs.room.ksp)
 
-    implementation(libs.coil)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.ktor)
 
     implementation(libs.exoplayer)
     implementation(libs.exoplayer.dash)

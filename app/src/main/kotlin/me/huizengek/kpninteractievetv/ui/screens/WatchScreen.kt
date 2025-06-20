@@ -29,6 +29,7 @@ import androidx.media3.common.Player
 import androidx.tv.material3.Button
 import androidx.tv.material3.Text
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootGraph
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.huizengek.kpnclient.ChannelContainer
@@ -46,7 +47,7 @@ import me.huizengek.kpninteractievetv.util.KeepScreenOn
 import me.huizengek.kpninteractievetv.util.focusOnLaunch
 import me.huizengek.kpninteractievetv.util.playbackState
 
-@Destination
+@Destination<RootGraph>
 @Composable
 fun WatchScreen() {
     val navigator = LocalNavigator.current

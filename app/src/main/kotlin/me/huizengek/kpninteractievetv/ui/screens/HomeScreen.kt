@@ -19,8 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.RootNavGraph
-import com.ramcosta.composedestinations.navigation.navigate
+import com.ramcosta.composedestinations.annotation.RootGraph
 import me.huizengek.kpnclient.KpnClient
 import me.huizengek.kpninteractievetv.LocalNavigator
 import me.huizengek.kpninteractievetv.R
@@ -39,8 +38,7 @@ val tabs = tabs {
     }
 }
 
-@RootNavGraph(start = true)
-@Destination
+@Destination<RootGraph>(start = true)
 @Composable
 fun HomeScreen() {
     val navigator = LocalNavigator.current

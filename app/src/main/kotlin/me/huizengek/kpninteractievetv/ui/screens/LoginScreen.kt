@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.navigate
+import com.ramcosta.composedestinations.annotation.RootGraph
 import kotlinx.coroutines.launch
 import me.huizengek.kpnclient.KpnClient
 import me.huizengek.kpninteractievetv.Database
@@ -37,7 +37,7 @@ import me.huizengek.kpninteractievetv.ui.items.AccountItem
 import me.huizengek.kpninteractievetv.ui.screens.destinations.AddAccountScreenDestination
 import me.huizengek.kpninteractievetv.util.bold
 
-@Destination
+@Destination<RootGraph>
 @Composable
 fun LoginScreen() {
     val navigator = LocalNavigator.current

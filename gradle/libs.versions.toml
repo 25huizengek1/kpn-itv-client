@@ -30,7 +30,7 @@ kotlinx_coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutin
 kotlinx_immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version = "0.3.7" }
 
 desugaring = { group = "com.android.tools", name = "desugar_jdk_libs", version = "2.1.5" }
-core_ktx = { group = "androidx.core", name = "core-ktx", version = "1.16.0" }
+core_ktx = { group = "androidx.core", name = "core-ktx", version = "1.17.0" }
 lifecycle_runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
 
 compose_activity = { group = "androidx.activity", name = "activity-compose", version = "1.10.1" }
